@@ -1,0 +1,7 @@
+# Espinha (triagem + dataset + comparador)
+pymupdf>=1.24.0
+pydantic>=2.0.0
+
+# Fase Experimento A (extração via gateway LiteLLM) — ainda não usada
+litellm>=1.50.0
+python-dotenv>=1.0.0
