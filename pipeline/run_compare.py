@@ -15,6 +15,15 @@ from src.compare import comparar
 from src.metrics import consolidar
 
 
+def _rel(p: Path) -> Path:
+    """Caminho relativo a ROOT quando possível; senão, absoluto (aceita --out relativo ou de fora)."""
+    p = p.resolve()
+    try:
+        return p.relative_to(config.ROOT)
+    except ValueError:
+        return p
+
+
 def _preparar_csv():
     referencia, gemini = carregar_csv()
     return gemini, referencia, config.CAMPOS_CSV_GEMINI, "csv: gemini vs referência (3 campos)"
@@ -63,7 +72,7 @@ def main() -> None:
         print(f"    {d['arquivo']} | {d['campo']} | {d['valor_predito']!r} | {d['valor_gabarito']!r}")
     if len(comparacao["divergencias"]) > 15:
         print(f"    ... (+{len(comparacao['divergencias']) - 15})")
-    print(f"\nRelatório salvo em: {out.relative_to(config.ROOT)}")
+    print(f"\nRelatório salvo em: {_rel(out)}")
 
 
 if __name__ == "__main__":
