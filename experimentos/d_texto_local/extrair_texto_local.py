@@ -6,6 +6,7 @@ vLLM local por litellm, validando com Pydantic (extrator de JSON robusto como fa
 
 import json
 import os
+import re
 import time
 from pathlib import Path
 
@@ -41,6 +42,7 @@ def carregar_texto(pdf_path) -> str:
 
 def _extrair_json(content: str) -> dict:
     content = (content or "").strip()
+    content = re.sub(r"<think>.*?</think>", "", content, flags=re.DOTALL).strip()
     try:
         return json.loads(content)
     except json.JSONDecodeError:
