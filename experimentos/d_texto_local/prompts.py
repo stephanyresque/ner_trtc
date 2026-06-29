@@ -9,7 +9,7 @@ SYSTEM_PROMPT = (
     "do formulário e responde APENAS com um JSON. Nunca invente: campo ausente = string vazia."
 )
 
-USER_PROMPT_TEMPLATE = (
+USER_PROMPT = (
     "O TEXTO a seguir foi extraído de um formulário TRCT padronizado, com campos numerados. Extraia "
     "exatamente estes 5 campos e responda APENAS com um JSON válido (sem markdown, sem comentários):\n"
     "- nome_trabalhador: campo 11 \"Nome\" (o TRABALHADOR; NÃO use o campo 20 \"Nome da mãe\").\n"
@@ -19,6 +19,5 @@ USER_PROMPT_TEMPLATE = (
     "- data_demissao: campo 26 \"Data de Afastamento\" (é a DEMISSÃO; NÃO use o campo 25 \"Aviso prévio\").\n"
     "Datas em dd/mm/aaaa; valor exatamente como no documento; \"\" se ausente; PROIBIDO inventar.\n"
     "Responda só o JSON com exatamente estas chaves: "
-    '{"nome_trabalhador":"","nome_empregador":"","ultima_remuneracao":"","data_admissao":"","data_demissao":""}\n\n'
-    "TEXTO DO DOCUMENTO:\n{texto}"
+    '{"nome_trabalhador":"","nome_empregador":"","ultima_remuneracao":"","data_admissao":"","data_demissao":""}'
 )

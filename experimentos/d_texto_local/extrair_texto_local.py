@@ -16,7 +16,7 @@ from dotenv import load_dotenv
 from src import config
 from src.pdf_text import extrair_texto
 from src.schemas import ExtracaoTRCT
-from experimentos.d_texto_local.prompts import SYSTEM_PROMPT, USER_PROMPT_TEMPLATE
+from experimentos.d_texto_local.prompts import SYSTEM_PROMPT, USER_PROMPT
 
 litellm.drop_params = True
 load_dotenv(Path(__file__).resolve().parent / ".env")    # vLLM local (mesmo padrão da B)
@@ -84,8 +84,9 @@ def extrair_campos(pdf_path) -> tuple[dict, dict]:
     """Devolve (registro de 5 campos, meta {usage, custo_usd, latencia_s, modo, validacao, erro, n_chars})."""
     base_url, api_key, modelo = _config()
     texto = carregar_texto(pdf_path)
+    user_content = f"{USER_PROMPT}\n\nTEXTO DO DOCUMENTO:\n{texto}"
     messages = [{"role": "system", "content": SYSTEM_PROMPT},
-                {"role": "user", "content": USER_PROMPT_TEMPLATE.format(texto=texto)}]
+                {"role": "user", "content": user_content}]
     comum = dict(model=modelo, custom_llm_provider="openai", api_base=base_url, api_key=api_key,
                  messages=messages, temperature=0.0)
 
