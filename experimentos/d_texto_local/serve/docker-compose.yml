@@ -1,0 +1,62 @@
+# vLLM (OpenAI-compatible) para os modelos de TEXTO do Experimento D — UM perfil de cada vez (12 GB).
+# Subir:  docker compose --profile qwen35 up -d   |   HF_TOKEN=hf_... docker compose --profile gemma3 up -d
+# Modelos de TEXTO: SEM flags de imagem. bf16, precisão cheia (4B cabe em ~8 GB; sem quantizar).
+services:
+  vllm-qwen35:
+    image: vllm/vllm-openai:${VLLM_TAG:-v0.11.0}
+    profiles: ["qwen35"]
+    ipc: host
+    ports: ["8000:8000"]
+    volumes:
+      - /mnt/hd/ceia/user_stephany:/workspace          # pesos caem aqui, não no root
+    environment:
+      HF_HOME: /workspace/hf_cache
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+    command:
+      - --model
+      - Qwen/Qwen3.5-4B                                 # Apache 2.0 (instruct/chat por padrão)
+      - --served-model-name
+      - qwen3.5-4b
+      - --dtype
+      - bfloat16
+      - --gpu-memory-utilization
+      - "0.90"
+      - --max-model-len
+      - "8192"
+      - --trust-remote-code
+
+  vllm-gemma3:
+    image: vllm/vllm-openai:${VLLM_TAG:-v0.11.0}
+    profiles: ["gemma3"]
+    ipc: host
+    ports: ["8000:8000"]
+    volumes:
+      - /mnt/hd/ceia/user_stephany:/workspace
+    environment:
+      HF_HOME: /workspace/hf_cache
+      HF_TOKEN: ${HF_TOKEN:-}                           # gemma-3 é GATED: exige token de acesso HF
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+    command:
+      - --model
+      - google/gemma-3-4b-it                            # GATED (instruction-tuned)
+      - --served-model-name
+      - gemma-3-4b-it
+      - --dtype
+      - bfloat16
+      - --gpu-memory-utilization
+      - "0.90"
+      - --max-model-len
+      - "8192"
+      - --trust-remote-code
