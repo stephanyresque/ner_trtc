@@ -20,9 +20,9 @@ services:
               capabilities: [gpu]
     command:
       - --model
-      - Qwen/Qwen3.5-4B                                 # Apache 2.0 (instruct/chat por padrão)
+      - Qwen/Qwen3-4B-Instruct-2507                     # Qwen3ForCausalLM, texto puro, não-pensante
       - --served-model-name
-      - qwen3.5-4b
+      - qwen3-4b
       - --dtype
       - bfloat16
       - --gpu-memory-utilization

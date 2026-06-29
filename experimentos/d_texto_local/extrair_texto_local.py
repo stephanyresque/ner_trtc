@@ -27,7 +27,7 @@ CAMPOS = config.CAMPOS
 def _config() -> tuple[str, str, str]:
     return (os.getenv("VLLM_BASE_URL", "http://localhost:8000/v1"),
             os.getenv("VLLM_API_KEY", "EMPTY"),
-            os.getenv("MODELO", "qwen3.5-4b"))
+            os.getenv("MODELO", "qwen3-4b"))
 
 
 def carregar_texto(pdf_path) -> str:

@@ -6,7 +6,7 @@ set -euo pipefail
 
 # ----------------------------- editar aqui -----------------------------
 MODELOS=(                       # "perfil:served_name" (served_name = --served-model-name do compose)
-  "qwen35:qwen3.5-4b"
+  "qwen35:qwen3-4b"
   "gemma3:gemma-3-4b-it"
 )
 REPO=/mnt/hd/ceia/user_stephany/ner_trct
