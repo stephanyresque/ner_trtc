@@ -49,7 +49,7 @@ services:
               capabilities: [gpu]
     command:
       - --model
-      - meta-llama/Llama-3.2-3B-Instruct                # LlamaForCausalLM, texto puro, não-gated
+      - unsloth/Llama-3.2-3B-Instruct                # LlamaForCausalLM, texto puro, não-gated
       - --served-model-name
       - llama-3.2-3b
       - --dtype
