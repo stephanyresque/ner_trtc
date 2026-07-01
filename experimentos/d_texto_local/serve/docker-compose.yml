@@ -56,7 +56,9 @@ services:
       - --dtype
       - bfloat16
       - --gpu-memory-utilization
-      - "0.90"
+      - "0.80"
       - --max-model-len
-      - "8192"
+      - "4096"
+      - --max-num-seqs
+      - "1"
       - --trust-remote-code
