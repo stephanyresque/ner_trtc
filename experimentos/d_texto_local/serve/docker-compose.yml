@@ -1,5 +1,5 @@
 # vLLM (OpenAI-compatible) para os modelos de TEXTO do Experimento D — UM perfil de cada vez (12 GB).
-# Subir:  docker compose --profile qwen35 up -d   |   HF_TOKEN=hf_... docker compose --profile gemma3 up -d
+# Subir:  docker compose --profile qwen35 up -d   |   docker compose --profile llama32 up -d
 # Modelos de TEXTO: SEM flags de imagem. bf16, precisão cheia (4B cabe em ~8 GB; sem quantizar).
 services:
   vllm-qwen35:
@@ -31,16 +31,15 @@ services:
       - "4096"
       - --trust-remote-code
 
-  vllm-gemma3:
+  vllm-llama32:
     image: vllm/vllm-openai:${VLLM_TAG:-v0.11.0}
-    profiles: ["gemma3"]
+    profiles: ["llama32"]
     ipc: host
     ports: ["8000:8000"]
     volumes:
       - /mnt/hd/ceia/user_stephany:/workspace
     environment:
       HF_HOME: /workspace/hf_cache
-      HF_TOKEN: ${HF_TOKEN:-}                           # gemma-3 é GATED: exige token de acesso HF
     deploy:
       resources:
         reservations:
@@ -50,15 +49,13 @@ services:
               capabilities: [gpu]
     command:
       - --model
-      - google/gemma-3-4b-it                            # GATED (instruction-tuned)
+      - meta-llama/Llama-3.2-3B-Instruct                # LlamaForCausalLM, texto puro, não-gated
       - --served-model-name
-      - gemma-3-4b-it
+      - llama-3.2-3b
       - --dtype
       - bfloat16
       - --gpu-memory-utilization
       - "0.80"
       - --max-model-len
       - "4096"
-      - --max-num-seqs
-      - "1"
       - --trust-remote-code

@@ -1,13 +1,13 @@
 #!/usr/bin/env bash
 # Roda o Experimento D ponta a ponta no SERVIDOR (host): para cada modelo sobe o vLLM, extrai,
 # pontua e derruba (libera VRAM); ao final gera o relatório consolidado (D + C/B/A).
-# Uso:  HF_TOKEN=hf_... bash experimentos/d_texto_local/serve/run_todos.sh
+# Uso:  bash experimentos/d_texto_local/serve/run_todos.sh
 set -euo pipefail
 
 # ----------------------------- editar aqui -----------------------------
 MODELOS=(                       # "perfil:served_name" (served_name = --served-model-name do compose)
   "qwen35:qwen3-4b"
-  "gemma3:gemma-3-4b-it"
+  "llama32:llama-3.2-3b"
 )
 REPO=/mnt/hd/ceia/user_stephany/ner_trct
 CLIENT_IMG=trct-d-client
